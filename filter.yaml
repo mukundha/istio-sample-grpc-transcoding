@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: hipster-product-grpc
+  namespace: istio-system
+spec:
+  workloadLabels:
+    transcode: http
+  filters:
+  - listenerMatch:            
+      listenerType: SIDECAR_INBOUND
+    filterName: envoy.grpc_json_transcoder
+    filterType: HTTP
+    filterConfig:
+      proto_descriptor: "/gce/api_descriptor.pb"
+      services:         
+        - hipstershop.ProductCatalogService      
+
