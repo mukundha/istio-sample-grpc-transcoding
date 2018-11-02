@@ -1,0 +1,98 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: api-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: hipster-api
+spec:
+  gateways:
+  - api-gateway
+  hosts:
+  - "*"
+  http:
+  - match:
+    - uri: 
+        prefix: "/products"
+    route:
+    - destination:
+        host: productcatalogservice
+        port:
+          number: 80       
+  - match:
+    - uri: 
+        prefix: "/currencies"
+    route:
+    - destination:
+        host: currencyservice
+        port:
+          number: 80                 
+  - match:
+    - uri: 
+        prefix: "/ads"
+    route:
+    - destination:
+        host: adservice
+        port:
+          number: 80    
+  - match:
+    - uri: 
+        prefix: "/carts"
+    route:
+    - destination:
+        host: cartservice
+        port:
+          number: 80    
+  - match:
+    - uri: 
+        exact: "/orders/checkout"
+    route:
+    - destination:
+        host: checkoutservice
+        port:
+          number: 80    
+  - match:
+    - uri: 
+        prefix: "/sendmail"
+    route:
+    - destination:
+        host: emailservice
+        port:
+          number: 80    
+  - match:
+    - uri: 
+        prefix: "/payments"
+    route:
+    - destination:
+        host: paymentservice
+        port:
+          number: 80    
+  - match:
+    - uri: 
+        prefix: "/recommendations"
+    route:
+    - destination:
+        host: recommendationservice
+        port:
+          number: 80    
+  - match:
+    - uri: 
+        prefix: "/shipping/quote"
+    route:
+    - destination:
+        host: shippingservice
+        port:
+          number: 80    
+                                 
