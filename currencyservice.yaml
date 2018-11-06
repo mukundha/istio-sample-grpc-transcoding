@@ -21,6 +21,7 @@ spec:
     metadata:
       labels:
         app: currencyservice
+        transcode: http
     spec:
       terminationGracePeriodSeconds: 5      
       containers:
